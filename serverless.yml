@@ -1,7 +1,7 @@
 org: sorshiisland
 app: app
 service: app
-
+useDotenv: true
 plugins:
   - '@hewmen/serverless-plugin-typescript'  
   - serverless-plugin-optimize
