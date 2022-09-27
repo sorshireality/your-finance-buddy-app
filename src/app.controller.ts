@@ -1,17 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Request, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
-  @Get('hello')
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Get('super_test')
-  superTest(): string {
-    return 'SUPER MEGA HEYLO';
-  }
+    // eslint-disable-next-line @typescript-eslint/require-await
+    @UseGuards(AuthGuard('local'))
+    @Post('auth/login')
+    async login(@Request() req) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access
+        return req.user;
+    }
 }

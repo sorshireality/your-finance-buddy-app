@@ -4,4 +4,4 @@
 * POC version;
 
 ### 0.0.2
-* Implemented authentication.
+* Implemented simple authentication.
