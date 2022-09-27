@@ -5,6 +5,7 @@ import {AppService} from './app.service';
 import { UsersModule } from './users/users.module';
 import {ConfigService} from './config/config.service';
 import {ConfigModule} from './config/config.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import {ConfigModule} from './config/config.module';
             useFactory: async (configService: ConfigService) => await configService.getMongoConfig(),
         }),
         UsersModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
