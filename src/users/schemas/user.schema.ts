@@ -11,11 +11,17 @@ export class User {
     @Prop()
     lastName: string;
 
-    @Prop({unique: true, required: true})
-    email: string;
-
     @Prop()
     password: string;
+
+    @Prop({unique: true, required: true})
+    email: string;
+}
+
+export interface IAuthUser{
+    firstName: string,
+    lastName: string,
+    email: string,
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
