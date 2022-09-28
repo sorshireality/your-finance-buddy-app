@@ -5,3 +5,6 @@
 
 ### 0.0.2
 * Implemented simple authentication.
+
+### 0.0.3 
+* Implemented JWT token support.

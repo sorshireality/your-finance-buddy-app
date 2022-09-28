@@ -1,6 +1,14 @@
 import * as dotenv from 'dotenv';
 import * as AWS from 'aws-sdk';
 
+export interface IJwtConfig {
+    secret: string,
+    signOptions: {
+        expiresIn: string
+    }
+}
+
+
 export class ConfigService {
     private readonly envConfig: Record<string, string>;
     private readAWSConfig: boolean;
@@ -16,7 +24,7 @@ export class ConfigService {
             this.envConfig = result.parsed;
         }
 
-        if (this.envConfig.AWS_ACTIVE == 'true') {
+        if (this.envConfig.AWS_ACTIVE === 'true') {
             this.readAWSConfig = true;
             this.region = this.get('REGION');
             this.secretName = this.get('SECRET_NAME');
@@ -40,6 +48,18 @@ export class ConfigService {
         };
     }
 
+    public async getJwtConfig(): Promise<{secret: string, signOptions: {expiresIn: string}}> {
+        if (this.readAWSConfig) {
+            await this.upAWSConfig();
+        }
+        return {
+            secret: this.get('JWT_SECRET'),
+            signOptions: {
+                expiresIn: '60s'
+            }
+        };
+    }
+
     public async upAWSConfig() {
         let error;
 
@@ -47,12 +67,15 @@ export class ConfigService {
             region: this.region,
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const secrets = await client
             .getSecretValue({SecretId: this.secretName})
             .promise()
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-return
             .catch(err => (error = err));
 
         if (error) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (error.code === 'DecryptionFailureException') {
                 throw error;
             }
@@ -61,9 +84,13 @@ export class ConfigService {
 
         this.readAWSConfig = false;
 
+        // eslint-disable-next-line max-len
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
         const resultSecrets = JSON.parse(secrets.SecretString);
 
-        for (let key in resultSecrets) {
+        // eslint-disable-next-line guard-for-in
+        for (const key in resultSecrets) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
             this.envConfig[key] = resultSecrets[key];
         }
     }
