@@ -8,3 +8,5 @@
 
 ### 0.0.3 
 * Implemented JWT token support.
+* Resolved some dependencies.
+* Fixed (removed) tests to avoid bottleneck with no sense checks.
