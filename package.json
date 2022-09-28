@@ -62,8 +62,8 @@
     "tsconfig-paths": "^3.5.0"
   },
   "engines": {
-    "node": "16.17.1",
-    "npm": "8.15.0"
+    "node": "^16.0.0",
+    "npm": "^8.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
