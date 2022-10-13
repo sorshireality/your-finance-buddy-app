@@ -55,7 +55,7 @@ export class ConfigService {
         return {
             secret: this.get('JWT_SECRET'),
             signOptions: {
-                expiresIn: '60s'
+                expiresIn: '10m'
             }
         };
     }
